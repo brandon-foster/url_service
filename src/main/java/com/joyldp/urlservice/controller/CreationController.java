@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.joyldp.urlservice.entity.AvailableUrlEntity;
-import com.joyldp.urlservice.service.AvailableUrlService;
+import com.joyldp.urlservice.entity.UrlEntity;
+import com.joyldp.urlservice.service.UrlService;
 import com.joyldp.urlservice.service.HashService;
 
 @Slf4j
@@ -17,10 +17,10 @@ import com.joyldp.urlservice.service.HashService;
 @RequestMapping("/api/create")
 public class CreationController {
     
-    private final AvailableUrlService availableUrlService;
+    private final UrlService availableUrlService;
     private final HashService hashService;
     
-    public CreationController(AvailableUrlService availableUrlService, HashService hashService) {
+    public CreationController(UrlService availableUrlService, HashService hashService) {
         this.availableUrlService = availableUrlService;
         this.hashService = hashService;
     }
@@ -31,7 +31,7 @@ public class CreationController {
                                             @RequestParam(name = "username", required = false) String username,
                                             @RequestParam(name = "expireDate", required = false) String expireDate) {
         log.info("originalUrl: {}", originalUrl);
-        final AvailableUrlEntity createdAvailableUrl = availableUrlService.createOne(AvailableUrlEntity.builder()
+        final UrlEntity createdAvailableUrl = availableUrlService.createOne(UrlEntity.builder()
             .hash(hashService.provideHash())
             .originalUrl(originalUrl)
             .build());

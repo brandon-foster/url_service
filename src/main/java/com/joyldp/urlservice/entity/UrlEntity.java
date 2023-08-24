@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "available_url", schema = "urlservice")
+@Table(name = "url", schema = "urlservice")
 @Entity
-public class AvailableUrlEntity {
+public class UrlEntity {
     @Id
     @Column(name = "hash")
     private String hash;

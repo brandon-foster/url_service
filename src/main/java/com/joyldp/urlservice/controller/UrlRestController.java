@@ -1,5 +1,6 @@
 package com.joyldp.urlservice.controller;
 
+import com.joyldp.urlservice.dto.UrlDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import com.joyldp.urlservice.service.HashService;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class UrlRestController {
     
@@ -21,12 +23,9 @@ public class UrlRestController {
     }
 
     @PostMapping
-    public ResponseEntity<UrlEntity> createUrl(@RequestParam(name = "originalUrl") String originalUrl,
-                                            @RequestParam(name = "customAlias", required = false) String customAlias,
-                                            @RequestParam(name = "username", required = false) String username,
-                                            @RequestParam(name = "expireDate", required = false) String expireDate) {
-        log.info("originalUrl: {}", originalUrl);
-        final UrlEntity urlEntity = urlService.createOne(originalUrl);
+    public ResponseEntity<UrlEntity> createUrl(@RequestBody UrlDto urlDto) {
+        log.info("originalUrl: {}", urlDto.getOriginalUrl());
+        final UrlEntity urlEntity = urlService.createOne(urlDto.getOriginalUrl());
         return ResponseEntity.ok().body(urlEntity);
     }
 

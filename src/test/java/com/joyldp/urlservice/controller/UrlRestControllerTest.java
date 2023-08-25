@@ -1,6 +1,7 @@
 package com.joyldp.urlservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joyldp.urlservice.dto.UrlDto;
 import com.joyldp.urlservice.entity.UrlEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,46 +35,61 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithOnlyOriginalUrl() throws Exception {
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
         mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testCreateUrlWithOriginalUrlAndCustomAlias() throws Exception {
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
+        urlDto.setCustomAlias("myAlias");
         mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
-                        .param(PARAM_KEY_CUSTOM_ALIAS, "myAlias")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testCreateUrlWithOriginalUrlAndUsername() throws Exception {
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
+        urlDto.setUsername("john_doe");
         mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
-                        .param(PARAM_KEY_USERNAME, "john_doe")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testCreateUrlWithOriginalUrlAndExpireDate() throws Exception {
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
+        urlDto.setExpireDate("2023-08-25");
         mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
-                        .param(PARAM_KEY_EXPIRE_DATE, "2023-08-25")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testCreateUrlWithAllParameters() throws Exception {
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
+        urlDto.setCustomAlias("myAlias");
+        urlDto.setUsername("john_doe");
+        urlDto.setExpireDate("2023-08-25");
         mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
-                        .param(PARAM_KEY_CUSTOM_ALIAS, "myAlias")
-                        .param(PARAM_KEY_USERNAME, "john_doe")
-                        .param(PARAM_KEY_EXPIRE_DATE, "2023-08-25")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -88,8 +104,11 @@ public class UrlRestControllerTest {
     @Test
     public void testProvideUrlEntityByHashWithHashThatExists() throws Exception {
         // Given: A hash exists that exists.
+        final UrlDto urlDto = new UrlDto();
+        urlDto.setOriginalUrl(EXAMPLE_URL);
         final MvcResult mvcResult = mockMvc.perform(post(CONTROLLER_URL_API)
-                        .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(urlDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

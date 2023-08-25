@@ -45,16 +45,18 @@ public class HashServiceTest {
     public void givenGeneratedHashExists_WhenProvideHash_ThenReturnUNAVAI() {
         // Given
         final String preExistingHash = "a8_2Jp";
-        when(hashGenerator.generateHash()).thenReturn(preExistingHash);
+        final String secondHash = "peI27D";
+        when(hashGenerator.generateHash()).thenReturn(preExistingHash, secondHash);
         when(urlRepository.existsById(preExistingHash)).thenReturn(true);
 
         // When
         final String actual = hashService.provideHash();
 
         // Then
-        assertEquals("UNAVAI", actual);
+        assertEquals(secondHash, actual);
         verify(urlRepository, times(1)).existsById(preExistingHash);
-        verify(hashGenerator, times(1)).generateHash();
+        verify(urlRepository, times(1)).existsById(secondHash);
+        verify(hashGenerator, times(2)).generateHash();
     }
 
 }

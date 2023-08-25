@@ -1,23 +1,26 @@
 package com.joyldp.urlservice.service;
 
-import org.springframework.stereotype.Service;
-
 import com.joyldp.urlservice.entity.UrlEntity;
 import com.joyldp.urlservice.repository.UrlRepository;
-
-import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UrlService {
 
     private final UrlRepository urlRepository;
+    private final HashService hashService;
 
-    public UrlService(UrlRepository urlRepository) {
+    public UrlService(UrlRepository urlRepository, HashService hashService) {
         this.urlRepository = urlRepository;
+        this.hashService = hashService;
     }
 
-    public UrlEntity createOne(UrlEntity url) {
-        return urlRepository.save(url);
+    public UrlEntity createOne(String originalUrl) {
+        final UrlEntity urlEntity = UrlEntity.builder()
+                .hash(hashService.provideHash())
+                .originalUrl(originalUrl)
+                .build();
+        return urlRepository.save(urlEntity);
     }
 
     public UrlEntity retrieveUrlByHash(String hash) {

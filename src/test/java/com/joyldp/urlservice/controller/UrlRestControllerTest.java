@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,7 +34,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithOnlyOriginalUrl() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -41,7 +42,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithOriginalUrlAndCustomAlias() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .param(PARAM_KEY_CUSTOM_ALIAS, "myAlias")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -50,7 +51,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithOriginalUrlAndUsername() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .param(PARAM_KEY_USERNAME, "john_doe")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -59,7 +60,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithOriginalUrlAndExpireDate() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .param(PARAM_KEY_EXPIRE_DATE, "2023-08-25")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -68,7 +69,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithAllParameters() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .param(PARAM_KEY_CUSTOM_ALIAS, "myAlias")
                         .param(PARAM_KEY_USERNAME, "john_doe")
@@ -79,7 +80,7 @@ public class UrlRestControllerTest {
 
     @Test
     public void testCreateUrlWithoutOriginalUrl() throws Exception {
-        mockMvc.perform(get(CONTROLLER_URL_API)
+        mockMvc.perform(post(CONTROLLER_URL_API)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
@@ -87,7 +88,7 @@ public class UrlRestControllerTest {
     @Test
     public void testProvideUrlEntityByHashWithHashThatExists() throws Exception {
         // Given: A hash exists that exists.
-        final MvcResult mvcResult = mockMvc.perform(get(CONTROLLER_URL_API)
+        final MvcResult mvcResult = mockMvc.perform(post(CONTROLLER_URL_API)
                         .param(PARAM_KEY_ORIGINAL_URL, EXAMPLE_URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -15,32 +15,27 @@ import com.joyldp.urlservice.service.HashService;
 public class UrlRestController {
     
     private final UrlService urlService;
-    private final HashService hashService;
-    
-    public UrlRestController(UrlService urlService, HashService hashService) {
+
+    public UrlRestController(UrlService urlService) {
         this.urlService = urlService;
-        this.hashService = hashService;
     }
 
-    @GetMapping
+    @PostMapping
     public ResponseEntity<UrlEntity> createUrl(@RequestParam(name = "originalUrl") String originalUrl,
                                             @RequestParam(name = "customAlias", required = false) String customAlias,
                                             @RequestParam(name = "username", required = false) String username,
                                             @RequestParam(name = "expireDate", required = false) String expireDate) {
         log.info("originalUrl: {}", originalUrl);
-        final UrlEntity urlEntity = urlService.createOne(UrlEntity.builder()
-            .hash(hashService.provideHash())
-            .originalUrl(originalUrl)
-            .build());
+        final UrlEntity urlEntity = urlService.createOne(originalUrl);
         return ResponseEntity.ok().body(urlEntity);
     }
 
     @GetMapping("/{hash}")
     public ResponseEntity<UrlEntity> provideUrlEntityByHash(@PathVariable(name = "hash") String hash) {
         final UrlEntity urlEntity = urlService.retrieveUrlByHash(hash);
-        if (urlEntity != null) {
-            return ResponseEntity.ok().body(urlEntity);
+        if (urlEntity == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(urlEntity);
     }
 }

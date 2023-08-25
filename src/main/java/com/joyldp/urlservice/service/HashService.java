@@ -20,11 +20,10 @@ public class HashService {
     }
 
     public String provideHash() {
-        final String generatedHash = hashGenerator.generateHash();
-        log.info("generatedHash: {}", generatedHash);
-        if (urlRepository.existsById(generatedHash)) {
+        String generatedHash = hashGenerator.generateHash();
+        while (urlRepository.existsById(generatedHash)) {
             log.info("hash exists: {}", generatedHash);
-            return "UNAVAI";
+            generatedHash = hashGenerator.generateHash();
         }
         return generatedHash;
     }

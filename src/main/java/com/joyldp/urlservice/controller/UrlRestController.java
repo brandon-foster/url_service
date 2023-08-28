@@ -2,18 +2,19 @@ package com.joyldp.urlservice.controller;
 
 import com.joyldp.urlservice.dto.UrlDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.joyldp.urlservice.entity.UrlEntity;
 import com.joyldp.urlservice.service.UrlService;
-import com.joyldp.urlservice.service.HashService;
 
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api")
+@RequestMapping("/api/shorturl")
 public class UrlRestController {
     
     private final UrlService urlService;
@@ -36,5 +37,10 @@ public class UrlRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(urlEntity);
+    }
+
+    @GetMapping
+    public List<UrlEntity> retrieveAll() {
+        return urlService.retrieveAll();
     }
 }

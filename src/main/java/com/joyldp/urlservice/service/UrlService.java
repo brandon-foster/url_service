@@ -2,6 +2,11 @@ package com.joyldp.urlservice.service;
 
 import com.joyldp.urlservice.entity.UrlEntity;
 import com.joyldp.urlservice.repository.UrlRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +30,10 @@ public class UrlService {
 
     public UrlEntity retrieveUrlByHash(String hash) {
         return urlRepository.findById(hash).orElse(null);
+    }
+
+    public List<UrlEntity> retrieveAll() {
+        return StreamSupport.stream(urlRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

@@ -21,12 +21,8 @@ public class UrlRestControllerTest {
 
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
-    private static final String CONTROLLER_URL_API = "/api";
+    private static final String CONTROLLER_URL_API = "/api/shorturl";
     private static final String EXAMPLE_URL = "http://example.com";
-    private static final String PARAM_KEY_ORIGINAL_URL = "originalUrl";
-    private static final String PARAM_KEY_CUSTOM_ALIAS = "customAlias";
-    private static final String PARAM_KEY_USERNAME = "username";
-    private static final String PARAM_KEY_EXPIRE_DATE = "expireDate";
 
     public UrlRestControllerTest(@Autowired MockMvc mockMvc, @Autowired ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;

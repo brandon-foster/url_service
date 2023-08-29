@@ -21,7 +21,7 @@ public class UrlRestControllerTest {
 
     private final MockMvc mockMvc;
     private final ObjectMapper objectMapper;
-    private static final String CONTROLLER_URL_API = "/api/shorturl";
+    private static final String CONTROLLER_URL_API = "/l";
     private static final String EXAMPLE_URL = "http://example.com";
 
     public UrlRestControllerTest(@Autowired MockMvc mockMvc, @Autowired ObjectMapper objectMapper) {
@@ -116,7 +116,7 @@ public class UrlRestControllerTest {
         mockMvc.perform(get(CONTROLLER_URL_API + "/" + hash)
                         .contentType(MediaType.APPLICATION_JSON))
         // Then: OK Status.
-                .andExpect(status().isOk());
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class UrlRestControllerTest {
         // When: GET /api/{hash}
         mockMvc.perform(get(CONTROLLER_URL_API + "/" + hash)
                         .contentType(MediaType.APPLICATION_JSON))
-        // Then: NOT_FOUND Status.
-        .andExpect(status().isNotFound());
+        // Then: Redirection Status.
+        .andExpect(status().is3xxRedirection());
     }
 }

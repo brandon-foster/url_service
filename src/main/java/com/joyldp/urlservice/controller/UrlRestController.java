@@ -14,7 +14,7 @@ import com.joyldp.urlservice.service.UrlService;
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/shorturl")
+@RequestMapping("/l")
 public class UrlRestController {
     
     private final UrlService urlService;
@@ -27,15 +27,6 @@ public class UrlRestController {
     public ResponseEntity<UrlEntity> createUrl(@RequestBody UrlDto urlDto) {
         log.info("originalUrl: {}", urlDto.getOriginalUrl());
         final UrlEntity urlEntity = urlService.createOne(urlDto.getOriginalUrl());
-        return ResponseEntity.ok().body(urlEntity);
-    }
-
-    @GetMapping("/{hash}")
-    public ResponseEntity<UrlEntity> provideUrlEntityByHash(@PathVariable(name = "hash") String hash) {
-        final UrlEntity urlEntity = urlService.retrieveUrlByHash(hash);
-        if (urlEntity == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok().body(urlEntity);
     }
 
